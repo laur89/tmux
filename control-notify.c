@@ -260,3 +260,36 @@ control_notify_paste_buffer_deleted(const char *name)
 		control_write(c, "%%paste-buffer-deleted %s", name);
 	}
 }
+
+
+void
+control_notify_session_windows_reordered(struct session *s)
+{
+    // following from session_window_changed from up:
+	struct client	*c;
+
+	TAILQ_FOREACH(c, &clients, entry) {
+		if (!CONTROL_SHOULD_NOTIFY_CLIENT(c))
+			continue;
+
+		/*control_write(c, "%%session-windows-reordered @%u %i", w->window->id,*/
+		control_write(c, "%%session-windows-reordered $%u @%u", s->id,
+		    s->curw->window->id);
+	}
+
+}
+
+
+void
+control_notify_window_reordered(const char *name, struct winlink *wl)
+{
+	struct client	*c;
+
+	TAILQ_FOREACH(c, &clients, entry) {
+		if (!CONTROL_SHOULD_NOTIFY_CLIENT(c))
+			continue;
+
+		control_write(c, "%%%s @%u %i",
+                name, wl->window->id, wl->idx);
+	}
+}

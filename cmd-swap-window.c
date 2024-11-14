@@ -56,6 +56,7 @@ cmd_swap_window_exec(struct cmd *self, struct cmdq_item *item)
 	sg_src = session_group_contains(src);
 	sg_dst = session_group_contains(dst);
 
+	log_debug("!!!!in cmd_SWAP_window_exec()...");
 	if (src != dst &&
 	    sg_src != NULL &&
 	    sg_dst != NULL &&

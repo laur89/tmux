@@ -154,6 +154,10 @@ notify_callback(struct cmdq_item *item, void *data)
 		control_notify_paste_buffer_changed(ne->pbname);
 	if (strcmp(ne->name, "paste-buffer-deleted") == 0)
 		control_notify_paste_buffer_deleted(ne->pbname);
+	if (strcmp(ne->name, "session-windows-reordered") == 0)
+		control_notify_session_windows_reordered(ne->session);
+	if (strcmp(ne->name, "window-order-changed") == 0)
+		control_notify_window_reordered(ne->name, ne->fs.wl);
 
 	notify_insert_hook(item, ne);
 
@@ -271,6 +275,7 @@ notify_session(const char *name, struct session *s)
 	notify_add(name, &fs, NULL, s, NULL, NULL, NULL);
 }
 
+// TODO: can we re-use this for per-window order change notification?
 void
 notify_winlink(const char *name, struct winlink *wl)
 {
@@ -321,3 +326,52 @@ notify_paste_buffer(const char *pbname, int deleted)
 		    pbname);
 	}
 }
+
+void
+notify_session_windows_reordered(const char *name, int deleted)
+{
+      /*struct cmd_find_state	fs;*/
+
+	/*cmd_find_clear_state(&fs, 0);*/
+	/*if (deleted) {*/
+		/*notify_add("paste-buffer-deleted", &fs, NULL, NULL, NULL, NULL,*/
+			/*pbname);*/
+	/*} else {*/
+		/*notify_add("paste-buffer-changed", &fs, NULL, NULL, NULL, NULL,*/
+			/*pbname);*/
+	/*}*/
+
+    /*// following from notify_session() above:*/
+	/*struct cmd_find_state	fs;*/
+
+	/*if (session_alive(s))*/
+		/*cmd_find_from_session(&fs, s, 0);*/
+	/*else*/
+		/*cmd_find_from_nothing(&fs, 0);*/
+	/*notify_add(name, &fs, NULL, s, NULL, NULL, NULL);*/
+}
+
+// re-using notify_winlink() atm
+/*void*/
+/*notify_window_reordered(struct winlink *wl)*/
+/*{*/
+      /*struct cmd_find_state	fs;*/
+
+	/*cmd_find_clear_state(&fs, 0);*/
+	/*if (deleted) {*/
+		/*notify_add("paste-buffer-deleted", &fs, NULL, NULL, NULL, NULL,*/
+			/*pbname);*/
+	/*} else {*/
+		/*notify_add("paste-buffer-changed", &fs, NULL, NULL, NULL, NULL,*/
+			/*pbname);*/
+	/*}*/
+
+    /*// following from notify_session() above:*/
+	/*struct cmd_find_state	fs;*/
+
+	/*if (session_alive(s))*/
+		/*cmd_find_from_session(&fs, s, 0);*/
+	/*else*/
+		/*cmd_find_from_nothing(&fs, 0);*/
+	/*notify_add(name, &fs, NULL, s, NULL, NULL, NULL);*/
+/*}*/

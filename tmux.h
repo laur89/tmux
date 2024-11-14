@@ -2330,6 +2330,8 @@ void	notify_session_window(const char *, struct session *, struct window *);
 void	notify_window(const char *, struct window *);
 void	notify_pane(const char *, struct window_pane *);
 void	notify_paste_buffer(const char *, int);
+void	notify_session_windows_reordered(const char *, int);
+//void	notify_window_reordered(const char *, int);
 
 /* options.c */
 struct options	*options_create(struct options *);
@@ -3392,6 +3394,8 @@ void	control_notify_session_closed(struct session *);
 void	control_notify_session_window_changed(struct session *);
 void	control_notify_paste_buffer_changed(const char *);
 void	control_notify_paste_buffer_deleted(const char *);
+void	control_notify_session_windows_reordered(struct session *);
+void	control_notify_window_reordered(const char *, struct winlink *);
 
 /* session.c */
 extern struct sessions sessions;

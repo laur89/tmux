@@ -707,6 +707,7 @@ session_renumber_windows(struct session *s)
 	struct winlink_stack	 old_lastw;
 	int			 new_idx, new_curw_idx, marked_idx = -1;
 
+    log_debug("!!! at start of session_renumber_windows()");
 	/* Save and replace old window list. */
 	memcpy(&old_wins, &s->windows, sizeof old_wins);
 	RB_INIT(&s->windows);
@@ -728,6 +729,10 @@ session_renumber_windows(struct session *s)
 			new_curw_idx = wl_new->idx;
 
 		new_idx++;
+
+        /*notify_window_reordered(wl_new);*/
+        log_debug("window-order-changed for session $%u win_id %i", s->id, wl_new->idx);
+		notify_winlink("window-order-changed", wl_new);
 	}
 
 	/* Fix the stack of last windows now. */

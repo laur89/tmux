@@ -69,11 +69,13 @@ cmd_move_window_exec(struct cmd *self, struct cmdq_item *item)
 	char			*cause;
 	int			 idx, kflag, dflag, sflag, before;
 
+	log_debug("!!!!in cmd_move_window_exec()...");
 	if (args_has(args, 'r')) {
 		if (cmd_find_target(&target, item, tflag, CMD_FIND_SESSION,
 		    CMD_FIND_QUIET) != 0)
 			return (CMD_RETURN_ERROR);
 
+        log_debug("!!!!in cmd_move_window_exec(), invoking 1st renumber......");
 		session_renumber_windows(target.s);
 		recalculate_sizes();
 		server_status_session(target.s);
@@ -113,8 +115,10 @@ cmd_move_window_exec(struct cmd *self, struct cmdq_item *item)
 	 * session already has the correct winlink id to us, either
 	 * automatically or specified by -s.
 	 */
-	if (!sflag && options_get_number(src->options, "renumber-windows"))
+	if (!sflag && options_get_number(src->options, "renumber-windows")) {
+        log_debug("!!!!in cmd_move_window_exec(), invoking 2nd renumber......");
 		session_renumber_windows(src);
+    }
 
 	recalculate_sizes();
 
